@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NudgeNest - Your Next Project Idea</title>
+    <style>
+        /* --- Import Playful Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Pacifico&display=swap');
+
+        /* --- Global Styles & Resets --- */
+        :root {
+            --bg-color: #fefcfb;
+            --text-color: #333;
+            --primary-accent: #ff6b6b; /* Playful Coral */
+            --secondary-accent: #4ecdc4; /* Mint */
+            --card-bg: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.1);
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* --- Logo/Banner Styling --- */
+        .logo-banner {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            text-align: center;
+            color: var(--primary-accent);
+            margin-bottom: 1.5rem;
+            cursor: default;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .logo-banner:hover {
+            transform: scale(1.02);
+        }
+        
+        /* --- Form View Styling --- */
+        #form-view {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 700;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        #idea-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #444;
+        }
+
+        .form-group select {
+            padding: 0.75rem 1rem;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+            background-color: #fff;
+            appearance: none; /* Removes default OS styling */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%234ECDC4%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-13%205.4A17.5%2017.5%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2013l128%20127.9c3.6%203.6%207.8%205.4%2013%205.4s9.4-1.8%2013-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-13%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 0.8em;
+            cursor: pointer;
+        }
+
+        .form-group select:disabled {
+            background-color: #f4f4f4;
+            color: #aaa;
+            cursor: not-allowed;
+        }
+
+        /* --- Button Styling --- */
+        .btn {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 0.9rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-accent);
+            color: white;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff4747;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-accent);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3bbbb2;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* --- Idea View Styling --- */
+        #idea-view {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-top: 5px solid var(--secondary-accent);
+        }
+        
+        .card.exhausted-card {
+            border-top-color: var(--primary-accent);
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #555;
+        }
+
+        .card .logo-banner {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            color: var(--primary-accent);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary-accent);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.25rem;
+        }
+
+        .card p, .card ul {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .card ul {
+            padding-left: 1.2rem;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #f0f0f0;
+            color: #555;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px; /* Pill shape */
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .tag.tag-topic { background-color: #e0fbf9; color: #1ca093; }
+        .tag.tag-mood { background-color: #ffeaea; color: #e05252; }
+        .tag.tag-complex { background-color: #fff6e0; color: #c9a22f; }
+        .tag.tag-result { background-color: #e6f0ff; color: #407de7; }
+
+        #navigation-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+        
+        #navigation-buttons .btn {
+            flex-grow: 1; /* Make buttons share space */
+        }
+        
+        /* --- Utility Classes --- */
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- Animation --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <main class="container">
+
+        <section id="form-view">
+            <h1 class="logo-banner">NudgeNest</h1>
+            <h2>Want a new idea for web/app development?</h2>
+
+            <form id="idea-form">
+                
+                <div class="form-group">
+                    <label for="topic">1. Topic / Theme</label>
+                    <select id="topic" name="topic">
+                        <option value="0">--- Any Topic ---</option>
+                        <option value="1">Web Development</option>
+                        <option value="2" disabled>Machine Learning/AI (coming soon)</option>
+                        <option value="3" disabled>Automation/Tools (coming soon)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mood">2. Mood / Flavor</label>
+                    <select id="mood" name="mood">
+                        <option value="0">--- Any Mood ---</option>
+                        <option value="1">Practical / Useful</option>
+                        <option value="2">Playful / Funny</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="complex">3. Complexity / Constraints</label>
+                    <select id="complex" name="complex">
+                        <option value="0">--- Any Complexity ---</option>
+                        <option value="1">One-Day Build</option>
+                        <option value="2">Multi-Step / Advanced</option>
+                        <option value="3">Minimalist (few features/lines)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="result">4. Result</label>
+                    <select id="result" name="result">
+                        <option value="0">--- Any Result ---</option>
+                        <option value="1">Website</option>
+                        <option value="2">App</option>
+                        <option value="3">Bot / Automation</option>
+                        <option value="4">Content (text, art, video)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Choose desired parameters!</button>
+            </form>
+        </section>
+
+        <section id="idea-view">
+            
+            <div id="idea-card-container"></div>
+
+            <div id="navigation-buttons">
+                <button id="reset-button" class="btn btn-secondary">Choose another</button>
+                <button id="next-button" class="btn btn-primary">Next idea</button>
+            </div>
+        
+        </section>
+
+    </main>
+
+
+    <script>
+        // --- Our Data-to-Text Mappers ---
+        // These maps turn the numeric IDs from the DB into human-readable strings.
+        const mapper = {
+            topic: {
+                1: "Web Development",
+                2: "Machine Learning/AI",
+                3: "Automation/Tools"
+            },
+            mood: {
+                1: "Practical / Useful",
+                2: "Playful / Funny"
+            },
+            complex: {
+                1: "One-Day Build",
+                2: "Multi-Step / Advanced",
+                3: "Minimalist (few features/lines)"
+            },
+            result: {
+                1: "Website",
+                2: "App",
+                3: "Bot / Automation",
+                4: "Content (text, art, video)"
+            }
+        };
+
+        // --- Key for Session Storage ---
+        const DB_KEY = 'nudgeNestDB';
+        
+        // --- App State ---
+        let currentFilters = {};
+
+        // --- DOM Element References ---
+        const formView = document.getElementById('form-view');
+        const ideaView = document.getElementById('idea-view');
+        const ideaForm = document.getElementById('idea-form');
+        const ideaCardContainer = document.getElementById('idea-card-container');
+        const nextButton = document.getElementById('next-button');
+        const resetButton = document.getElementById('reset-button');
+
+        /**
+         * Main entry point.
+         * Runs when the page is loaded.
+         */
+        async function init() {
+            // Load the database into Session Storage if it's not already there.
+            await loadDB(); // <-- This now waits for the file to load
+
+            // Attach event listeners
+            ideaForm.addEventListener('submit', handleFormSubmit);
+            nextButton.addEventListener('click', showNextIdea);
+            resetButton.addEventListener('click', showFormView);
+        }
+
+        /**
+         * Loads the db.json file into session storage
+         * to simulate fetching and caching a DB file.
+         */
+        async function loadDB() {
+            if (!sessionStorage.getItem(DB_KEY)) {
+                try {
+                    console.log('Fetching database from db.json...');
+                    // Assumes db.json is in the same folder as the HTML file
+                    const response = await fetch('./db.json'); 
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    sessionStorage.setItem(DB_KEY, JSON.stringify(data));
+                    console.log('Database loaded and cached in Session Storage.');
+                } catch (error) {
+                    console.error("Could not load database:", error);
+                    // Show an error to the user
+                    alert("Error: Could not load the 'db.json' file.\n\nPlease make sure the file exists in the same folder and you are running this on a web server (like VS Code's 'Live Server').");
+                }
+            } else {
+                 console.log('Database already in Session Storage.');
+            }
+        }
+
+        /**
+         * Handles the form submission.
+         * Gathers filter criteria, stores them, and shows the first idea.
+         */
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Stop the form from reloading the page
+            
+            // Get form data
+            const formData = new FormData(ideaForm);
+            currentFilters = {
+                topic: parseInt(formData.get('topic')) || 0,
+                mood: parseInt(formData.get('mood')) || 0,
+                complex: parseInt(formData.get('complex')) || 0,
+                result: parseInt(formData.get('result')) || 0,
+            };
+
+            // --- NEW VALIDATION ---
+            // Check if all selectors are at their default "0" value
+            if (
+                currentFilters.topic === 0 &&
+                currentFilters.mood === 0 &&
+                currentFilters.complex === 0 &&
+                currentFilters.result === 0
+            ) {
+                // Use a simple alert for this minimalist app
+                alert("Please select at least one parameter to get an idea!");
+                return; // Stop the function from proceeding
+            }
+            // --- END NEW VALIDATION ---
+
+            // Show the first idea based on these filters
+            showNextIdea();
+
+            // Toggle the views
+            formView.style.display = 'none';
+            ideaView.style.display = 'block';
+        }
+        /**
+         * The core logic: Finds and displays a new, random, un-seen idea
+         * based on the `currentFilters`.
+         */
+        function showNextIdea() {
+            // 1. Get all ideas from storage
+            const allIdeas = JSON.parse(sessionStorage.getItem(DB_KEY));
+
+            // 2. Filter ideas based on `currentFilters`
+            //    (A value of 0 means "any" and skips the filter)
+            const filteredIdeas = allIdeas.filter(idea => {
+                const topicMatch = (currentFilters.topic === 0) || (idea.topic === currentFilters.topic);
+                const moodMatch = (currentFilters.mood === 0) || (idea.mood === currentFilters.mood);
+                const complexMatch = (currentFilters.complex === 0) || (idea.complex === currentFilters.complex);
+                const resultMatch = (currentFilters.result === 0) || (idea.result === currentFilters.result);
+                return topicMatch && moodMatch && complexMatch && resultMatch;
+            });
+
+            // 3. Get the list of ideas *already shown* for this *specific filter set*
+            const cacheKey = `shown_ideas_${currentFilters.topic}_${currentFilters.mood}_${currentFilters.complex}_${currentFilters.result}`;
+            let shownIds = JSON.parse(sessionStorage.getItem(cacheKey)) || [];
+
+            // 4. Find available ideas (filtered ideas that are NOT in shownIds)
+            const availableIdeas = filteredIdeas.filter(idea => !shownIds.includes(idea.i_id));
+
+            // 5. Check if we're out of ideas
+            if (availableIdeas.length === 0) {
+                renderExhaustedCard();
+                nextButton.classList.add('hidden'); // Hide "Next idea" button
+                return;
+            }
+
+            // 6. Select a random idea from the available ones
+            const randomIndex = Math.floor(Math.random() * availableIdeas.length);
+            const selectedIdea = availableIdeas[randomIndex];
+
+            // 7. Update the shown cache
+            shownIds.push(selectedIdea.i_id);
+            sessionStorage.setItem(cacheKey, JSON.stringify(shownIds));
+
+            // 8. Render the idea
+            renderIdeaCard(selectedIdea);
+            nextButton.classList.remove('hidden'); // Ensure "Next idea" button is visible
+        }
+
+        /**
+         * Renders the HTML for a single idea card.
+         */
+        function renderIdeaCard(idea) {
+            // Use the mappers to get text values
+            const topicText = mapper.topic[idea.topic];
+            const moodText = mapper.mood[idea.mood];
+            const complexText = mapper.complex[idea.complex];
+            const resultText = mapper.result[idea.result];
+
+            // Split MVP, Build, and NTH by newline if they exist
+            const formatList = (text) => {
+                if (!text || !text.trim()) return `<p>${'N/A'}</p>`; // Handle null, empty, or whitespace-only
+
+                // Check for newlines
+                if (!text.includes('\n')) {
+                    return `<p>${text}</p>`; // No newlines, just return as a paragraph
+                }
+
+                // Has newlines, so split, filter, map, and join
+                const items = text.split('\n')
+                                  .filter(item => item.trim() !== '') // <-- Filters out empty lines
+                                  .map(item => `<li>${item.trim()}</li>`) // Maps to <li>
+                                  .join('');
+                
+                // If filtering removed all lines (e.g., text was just "\n\n")
+                if (!items) {
+                     return `<p>${'N/A'}</p>`;
+                }
+
+                return `<ul>${items}</ul>`;
+            };
+            const cardHTML = `
+                <div class="card">
+                    <div class="logo-banner">NudgeNest</div>
+                    <h3>${idea.iname}</h3>
+                    <p>${idea.description}</p>
+                    
+                    <h4>MVP Features</h4>
+                    ${formatList(idea.mvp)}
+                    
+                    <h4>Build Plan</h4>
+                    ${formatList(idea.build)}
+
+                    <h4>Nice-to-Have Features</h4>
+                    ${formatList(idea.nth)}
+
+                    <h4>Data Format</h4>
+                    <p>${idea.dformat || 'N/A'}</p>
+
+                    <div class="tag-list">
+                        <span class="tag tag-topic">${topicText}</span>
+                        <span class="tag tag-mood">${moodText}</span>
+                        <span class="tag tag-complex">${complexText}</span>
+                        <span class="tag tag-result">${resultText}</span>
+                    </div>
+                </div>
+            `;
+            ideaCardContainer.innerHTML = cardHTML;
+        }
+
+        /**
+         * Renders the "Out of Ideas" card.
+         */
+        function renderExhaustedCard() {
+            const exhaustedHTML = `
+                <div class="card exhausted-card">
+                    <p>Wow, you're full of energy!</p>
+                    <p>Sorry, I am out of ideas for that combination at the moment. 😅</p>
+                    <p>Try different filters!</p>
+                </div>
+            `;
+            ideaCardContainer.innerHTML = exhaustedHTML;
+        }
+
+        /**
+         * Resets the app to the form view.
+         */
+        function showFormView() {
+            formView.style.display = 'block';
+            ideaView.style.display = 'none';
+            
+            // Clear the old card
+            ideaCardContainer.innerHTML = '';
+            
+            // Reset filters
+            currentFilters = {};
+            
+            // Reset the form fields (optional but good practice)
+            // ideaForm.reset(); 
+        }
+
+        // --- Start the App ---
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
