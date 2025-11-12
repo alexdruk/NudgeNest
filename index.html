@@ -462,6 +462,7 @@
             // 3. Get the list of ideas *already shown* for this *specific filter set*
             const cacheKey = `shown_ideas_${currentFilters.topic}_${currentFilters.mood}_${currentFilters.complex}_${currentFilters.result}`;
             let shownIds = JSON.parse(sessionStorage.getItem(cacheKey)) || [];
+            console.log(`Shown IDs for current filter set (${cacheKey}):`, shownIds);
 
             // 4. Find available ideas (filtered ideas that are NOT in shownIds)
             const availableIdeas = filteredIdeas.filter(idea => !shownIds.includes(idea.i_id));
@@ -480,6 +481,7 @@
             // 7. Update the shown cache
             shownIds.push(selectedIdea.i_id);
             sessionStorage.setItem(cacheKey, JSON.stringify(shownIds));
+            console.log(`Current idea id:`, selectedIdea.i_id);
 
             // 8. Render the idea
             renderIdeaCard(selectedIdea);
