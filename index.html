@@ -449,6 +449,14 @@
             // 1. Get all ideas from storage
             const allIdeas = JSON.parse(sessionStorage.getItem(DB_KEY));
 
+            // Guard against an empty or unloaded database
+            if (!allIdeas || allIdeas.length === 0) {
+                console.error("Database is empty or not loaded!");
+                renderExhaustedCard(); // Show an error
+                nextButton.classList.add('hidden');
+                return;
+            }
+
             // 2. Filter ideas based on `currentFilters`
             //    (A value of 0 means "any" and skips the filter)
             const filteredIdeas = allIdeas.filter(idea => {
